@@ -1,0 +1,36 @@
+From 666b79457a4eb8f8a1d9f0a9b04d8a6b47639828 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Anthony=20G=C3=A9go?= <anthonygego@fakemail.com>
+Date: Tue, 31 May 2016 19:31:28 +0200
+Subject: [PATCH] m5
+
+---
+ pkgs/libs/hooks/src/hooks.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/pkgs/libs/hooks/src/hooks.c b/pkgs/libs/hooks/src/hooks.c
+index 9658425..3abc57b 100644
+--- a/pkgs/libs/hooks/src/hooks.c
++++ b/pkgs/libs/hooks/src/hooks.c
+@@ -188,6 +188,10 @@ void __parsec_roi_begin() {
+   time_begin = (double)t.tv_sec+(double)t.tv_usec*1e-6;
+   #endif //ENABLE_TIMING
+ 
++  //gem5 checkpoint and resetstats
++  system("m5 checkpoint");
++  system("m5 resetstats");
++
+   #if ENABLE_SIMICS_MAGIC
+   MAGIC_BREAKPOINT;
+   #endif //ENABLE_SIMICS_MAGIC
+@@ -223,5 +227,8 @@ void __parsec_roi_end() {
+ 
+   printf(HOOKS_PREFIX" Leaving ROI\n");
+   fflush(NULL);
++
++  // gem5 dumpstats
++  system("m5 dumpstats");
+ }
+ 
+-- 
+2.5.5
+
